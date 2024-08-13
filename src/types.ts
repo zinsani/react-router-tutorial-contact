@@ -6,4 +6,5 @@ export type ContactDTO = {
   twitter: string;
   notes: string;
   favorite: boolean;
+  createdAt: number;
 };
