@@ -53,7 +53,7 @@ export default function Root() {
               placeholder="Search"
               type="search"
               name="q"
-              className={!searching ? "loading" : ""}
+              className={searching ? "loading" : ""}
               defaultValue={q}
               onChange={(e) => {
                 const isFirstSearch = q == null;
@@ -61,7 +61,7 @@ export default function Root() {
               }}
               data-testid="searchinput"
             />
-            <div id="search-spinner" aria-hidden hidden={searching} />
+            <div id="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
           <Form method="post">
