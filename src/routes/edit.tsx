@@ -13,7 +13,7 @@ export default function EditContact() {
   const navigate = useNavigate();
 
   return (
-    <Form method="post" id="contact-form">
+    <Form method="post" id="contact-form" data-testid="contact-form">
       <p>
         <span>Name</span>
         <input

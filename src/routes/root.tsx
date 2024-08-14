@@ -11,6 +11,7 @@ import {
 import { getContacts, createContact } from "../contacts";
 import { ContactDTO } from "../types";
 import { useEffect } from "react";
+import ContactList from "../components/contact/list";
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -68,33 +69,7 @@ export default function Root() {
           </Form>
         </div>
         <nav>
-          {contacts.length ? (
-            <ul>
-              {contacts.map((contact) => (
-                <li key={contact.id}>
-                  <NavLink
-                    to={`contacts/${contact.id}`}
-                    className={({ isActive, isPending }) =>
-                      isActive ? "active" : isPending ? "pending" : ""
-                    }
-                  >
-                    {contact.first || contact.last ? (
-                      <>
-                        {contact.first} {contact.last}
-                      </>
-                    ) : (
-                      <i>No Name</i>
-                    )}{" "}
-                    {contact.favorite && <span>★</span>}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>
-              <i>No contacts</i>
-            </p>
-          )}
+          <ContactList contacts={contacts} />
         </nav>
       </div>
       <div
