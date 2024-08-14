@@ -1,8 +1,16 @@
 import { ContactDTO } from "../types";
-import { Form, useFetcher, useLoaderData } from "react-router-dom";
+import {
+  ActionFunction,
+  Form,
+  LoaderFunction,
+  useFetcher,
+  useLoaderData,
+} from "react-router-dom";
 import { getContact, updateContact } from "../contacts";
 
-export async function loader({ params }) {
+export const loader: LoaderFunction = async ({ params }) => {
+  if (!params.contactId) return { contact: null };
+
   const contact = await getContact(params.contactId);
   if (!contact) {
     throw new Response("", {
@@ -11,14 +19,16 @@ export async function loader({ params }) {
     });
   }
   return { contact };
-}
+};
 
-export async function action({ request, params }) {
+export const action: ActionFunction = async ({ request, params }) => {
+  if (!params.contactId) return;
+
   const formData = await request.formData();
   return updateContact(params.contactId, {
     favorite: formData.get("favorite") === "true",
   });
-}
+};
 
 export default function Contact() {
   const { contact } = useLoaderData() as { contact: ContactDTO };

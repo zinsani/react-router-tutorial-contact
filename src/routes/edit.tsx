@@ -1,15 +1,24 @@
-import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
+import {
+  Form,
+  useLoaderData,
+  redirect,
+  useNavigate,
+  ActionFunction,
+} from "react-router-dom";
 import { updateContact } from "../contacts";
+import { ContactDTO } from "../types";
 
-export async function action({ request, params }) {
+export const action: ActionFunction = async ({ request, params }) => {
+  if (!params.contactId) return;
+
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateContact(params.contactId, updates);
   return redirect(`/contacts/${params.contactId}`);
-}
+};
 
 export default function EditContact() {
-  const { contact } = useLoaderData();
+  const { contact } = useLoaderData() as { contact?: ContactDTO };
   const navigate = useNavigate();
 
   return (
@@ -17,6 +26,7 @@ export default function EditContact() {
       <p>
         <span>Name</span>
         <input
+          role="input"
           placeholder="First"
           aria-label="First name"
           type="text"
@@ -24,6 +34,7 @@ export default function EditContact() {
           defaultValue={contact?.first}
         />
         <input
+          role="input"
           placeholder="Last"
           aria-label="Last name"
           type="text"
@@ -34,6 +45,7 @@ export default function EditContact() {
       <label>
         <span>Twitter</span>
         <input
+          role="input"
           type="text"
           name="twitter"
           placeholder="@jack"
@@ -43,6 +55,7 @@ export default function EditContact() {
       <label>
         <span>Avatar URL</span>
         <input
+          role="input"
           placeholder="https://example.com/avatar.jpg"
           aria-label="Avatar URL"
           type="text"
@@ -52,7 +65,12 @@ export default function EditContact() {
       </label>
       <label>
         <span>Notes</span>
-        <textarea name="notes" defaultValue={contact?.notes} rows={6} />
+        <textarea
+          role="input"
+          name="notes"
+          defaultValue={contact?.notes}
+          rows={6}
+        />
       </label>
       <p>
         <button type="submit">Save</button>

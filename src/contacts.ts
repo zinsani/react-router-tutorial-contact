@@ -40,7 +40,10 @@ export async function getContact(id: string) {
   return contact ?? {};
 }
 
-export async function updateContact(id: string, updates: ContactDTO) {
+export async function updateContact(
+  id: string,
+  updates: { [key: string]: FormDataEntryValue } | Partial<ContactDTO>,
+) {
   await fakeNetwork();
   const contacts: ContactDTO[] = (await localforage.getItem("contacts")) || [];
   const contact = contacts.find((contact) => contact.id === id);
